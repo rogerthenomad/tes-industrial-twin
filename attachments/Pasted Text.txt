@@ -1,0 +1,390 @@
+CIVIS TECH GLOBAL | TES | CONFIDENTIAL
+TES Component Detailed Modeling Summary
+
+Technical reference for Standard TES and TES Microfacility 3D modeling
+
+Prepared for Roger and the 3D modeling / agent workflow
+Current architecture basis: September-October 2026
+
+CONFIDENTIAL AND PROPRIETARY
+Internal modeling reference. This document is intended to support visual and interactive engineering modeling. It is not a released fabrication drawing, final P&ID, procurement specification, or public technical disclosure.
+
+
+1. Modeling Purpose and Use
+This document gives the 3D modeling team a deeper component-by-component understanding of TES so one technically rich master model can be created first and then simplified for DOE-facing or other public interactive use.
+Complex / Internal Model: Show enough physical architecture to make the equipment credible to an engineering audience. Include stack construction cues, manifolds, pumps, valves, sensors, control cabinets, dedicated loops, shared tanks, water recovery, oxygen support, thermal support, and realistic service access. Do not invent final fabrication dimensions when released CAD does not yet define them.
+Simplified / DOE View: Use the same master geometry but hide or consolidate sensitive or visually distracting detail. Keep the major components, major flow relationships, high-level function, and interactive hotspots. Do not expose precise chemistry recipes, proprietary catalyst details, exact channel geometry, control algorithms, or fabrication-level routing.
+Primary rule: Where exact size, port location, stack count, manifold dimension, or final industrial component selection is not yet released, use technically plausible generalized geometry and preserve the correct functional relationship. Released CAD and vendor drawings always override concept geometry.
+2. System-Level Architecture
+The Standard TES is a modified 40-foot containerized system built around four independently controllable hubs and shared managed inventories. Each hub contains electrochemical conversion capacity and power-generation capacity, while the larger fuel and electrolyte inventories are shared across the unit. The architecture deliberately decouples the timing of fuel use and fuel regeneration through the shared tanks, battery/DC buffer, and controls.
+System layer
+Primary function
+3D modeling implication
+Four hubs
+Independent operating domains with ECR and fuel-cell capacity
+Show four repeated serviceable modules with local isolation and clear piping/electrical interfaces.
+TK-101 fuel inventory
+Stores usable TES liquid fuel and decouples power generation from regeneration timing
+Model as the main shared liquid-fuel tank with feed/return connections and instrument ports.
+TK-102 electrolyte buffer
+Receives carbon-bearing return and supplies ECR regeneration batches
+Model as the main shared carbon-bearing electrolyte tank, separate from TK-101.
+Battery / DC buffer
+Supports startup, auxiliaries, transients, regeneration windows and output smoothing
+Show as a compact battery cabinet/rack tied into the DC electrical architecture.
+Water recovery
+Separates, collects, monitors and routes recoverable water
+Show condenser/separator, small collection volume, polishing equipment and outlet manifold.
+AI / EMS + PLC
+Coordinates operating modes while PLC and hard interlocks enforce safety
+Show one industrial control cabinet/HMI with distributed I/O and network links to hubs.
+3. Flow-Circuit Map for the 3D Model
+The complex model should make the major circuits visually traceable. These circuits should remain physically distinct and should not be merged into one generic piping network.
+• Fuel circuit: TK-101 liquid fuel storage -> hub fuel-cell anodes -> carbon-bearing liquid return -> TK-102.
+• Regeneration circuit: TK-102 carbon-bearing electrolyte -> ECR cathode side during regeneration -> accepted regenerated fuel return toward TK-101.
+• Dedicated ECR anolyte circuit: separate anolyte reservoir -> ECR anode side -> gas disengagement -> return to the same isolated anolyte reservoir. This liquid must not be shown mixing with TK-101 or TK-102.
+• CO2 / gas circuit: controlled CO2 delivery to the ECR cathode side, with gas handling and pressure/flow monitoring.
+• Oxygen circuit: ambient air -> oxygen enrichment equipment -> oxygen header -> fuel-cell cathodes. Conditioned ECR oxygen may join the oxygen header when quality and timing permit.
+• Water circuit: fuel-cell cathode exhaust -> condenser / separator -> water collection -> quality / polishing -> outlet manifold or external storage.
+• Thermal circuit: coolant / heat-transfer loop around electrochemical stacks and other selected equipment -> heat exchanger / radiator -> recirculation.
+• Electrical circuit: fuel-cell DC output -> DC bus / conversion -> battery/DC buffer and internal loads -> inverter / power conversion -> external electrical output. ECR power is supplied from the managed electrical system according to operating mode.
+4. Hub Module and Service Frame
+Primary role: A hub is the repeatable controllable module inside TES. It groups one electrochemical reactor and one fuel cell with local fluid control, sensing, electrical isolation, and service access.
+Technical architecture: Four hubs share the main fuel and electrolyte inventories but can be independently throttled, rested, isolated, or assigned different roles. The hub structure is a key part of redundancy, graceful degradation, wear leveling, and staggered regeneration.
+Physical modeling cues: Use a rigid industrial skid or vertical service frame. The ECR and fuel cell should read visually as separate plate-and-frame stacks mounted within the same hub, with clear tubing, valves, sensor stubs, electrical terminals, and accessible service clearances.
+Complex / Internal Model
+• Show ECR and fuel cell as separate stack assemblies rather than one combined box.
+• Provide local inlet and outlet manifolds, isolation valves, check valves where visually appropriate, local pressure/flow instrumentation, and electrical disconnects.
+• Include a small local junction box or distributed I/O module to imply hub-level sensing and isolation.
+• Keep enough space around each stack to suggest removal, inspection, gasket/plate service, and sensor access.
+• Allow hub-level highlight/isolation in the interactive model so one hub can be visually taken offline while the other three remain active.
+Simplified / DOE View
+• Show one labeled hub frame containing an ECR block and a Fuel Cell block.
+• Keep only major inlet/outlet tubes and one or two representative sensors.
+• Use animation/highlight to show that hubs can operate independently.
+Modeling cautions / open items
+• Do not lock final industrial stack dimensions to MVP dimensions unless released industrial CAD confirms them.
+5. Electrochemical Reactor (ECR)
+Primary role: The ECR is the regeneration subsystem that converts carbon dioxide in the managed carbon-bearing electrolyte pathway into usable formate fuel during controlled regeneration events.
+Technical architecture: The current design basis is a liquid-wetted, electrode-supported anion-exchange-membrane electrochemical reactor. The cathode side receives carbon-bearing electrolyte and controlled CO2. The anode side uses a physically separate formate-lean anolyte loop and oxygen-evolution electrode. The industrial architecture is low-pressure and moderate-temperature.
+Physical modeling cues: Visually, the ECR should look like a compressed plate-and-frame electrochemical stack with rigid end plates, compression hardware, repeated internal cells, liquid manifolds, a CO2 connection on the cathode side, an anolyte inlet/outlet on the anode side, electrical bus connections, and local sensors.
+Key interfaces to show
+• TK-102 regeneration feed and regenerated-fuel return path toward TK-101.
+• Controlled CO2 feed / carbon-management line.
+• Dedicated anolyte circulation loop.
+• DC electrical supply from TES power electronics.
+• Thermal-management connections and stack sensors.
+Complex / Internal Model
+• Model the stack as repeated cells clamped between end plates with tie rods or equivalent compression structure.
+• Internal exploded-view option: end plate -> flow-field plate -> porous electrode/catalyst layer -> membrane -> opposite electrode layer -> opposing flow-field plate, repeated through the stack.
+• Current internal technical basis uses a tin/bismuth catalytic system on porous nickel foam on the CO2-reduction side and a nickel-based / NiFe oxygen-evolution architecture on the anode side. Treat these as internal technical details, not public labels.
+• Show separate cathode and anode fluid ports. The anode liquid loop must remain distinct from the TES main electrolyte/fuel loops.
+• Show a controlled CO2 feed line with valve, flow measurement, and pressure indication entering the ECR cathode-side feed path.
+• Show electrical DC supply connections and local stack voltage/current sensing.
+• For an internal cutaway, show generic serpentine or distributed flow-field geometry without reproducing unreleased final industrial channel dimensions.
+Simplified / DOE View
+• Present ECR as one technical stack labeled Electrochemical Reactor.
+• Show only four functional connections: managed electrolyte in, CO2 in, regenerated fuel out, dedicated anolyte loop.
+• Clickable explanation: the ECR receives managed electrolyte and CO2 and regenerates the liquid fuel used by TES.
+Modeling cautions / open items
+• Industrial ECR cell count, active area, stack height, and final flow-field dimensions are release-controlled items. Use current architecture for visual logic, not as a final industrial dimensional freeze.
+• Do not show the ECR as continuously rate-matched to the fuel cell. TES intentionally uses stored inventories and batch/duty-cycled regeneration.
+6. Dedicated ECR Anolyte Loop
+Primary role: This is a separate closed liquid circuit serving only the oxygen-evolving side of the ECR.
+Technical architecture: The anolyte loop includes a dedicated reservoir, circulation pump, ECR anode flow path, gas-disengagement volume, sampling/monitoring points, and a controlled gas outlet. Potassium-containing anolyte liquid is physically isolated from TK-102 and the TES fuel system. Only conditioned gas may cross into the carbon/oxygen recovery pathway.
+Physical modeling cues: Model a small dedicated reservoir near the ECR, with a recirculation pump, supply/return hoses or piping, a visible headspace/gas outlet, and a small knockout/demister element above or downstream of the reservoir.
+Complex / Internal Model
+• Show dedicated anolyte reservoir, pump, ECR anode supply and return, level/temperature/pH/conductivity instrumentation, sample point, and gas disengagement headspace.
+• Show a gas outlet from the reservoir/headspace to a knockout or demister before any downstream gas-recovery equipment.
+• If the complex model includes gas recovery, show the conditioned O2/CO2 stream leaving the anolyte boundary while the liquid returns to the anolyte reservoir.
+• Keep this loop visually separate by routing and labeling. It should be impossible to mistake it for the main TK-102 electrolyte loop.
+Simplified / DOE View
+• Represent as a small ECR support reservoir and recirculation loop.
+• Do not expose detailed anolyte chemistry in the DOE-facing model.
+• Label only as Dedicated ECR Anolyte Loop if shown.
+Modeling cautions / open items
+• Final industrial reservoir volume and shared-versus-per-hub implementation remain design variables.
+7. Fuel Cell
+Primary role: The fuel cell converts stored TES liquid fuel into DC electrical power and produces recoverable water while returning a carbon-bearing working stream to the managed TES loop.
+Technical architecture: The current design basis is a liquid-fed anion-exchange-membrane fuel cell with a porous palladium-based formate-oxidation anode, an oxygen-reduction gas-diffusion cathode, liquid fuel flow on the anode side, and oxygen-enriched gas on the cathode side. Water is recovered from the cathode exhaust externally.
+Physical modeling cues: Like the ECR, the fuel cell should read as a clamped plate-and-frame stack. It needs liquid fuel ports, oxygen/cathode-gas ports, electrical output terminals, stack compression structure, temperature/pressure instrumentation, and a cathode exhaust line leading to the water-recovery train.
+Key interfaces to show
+• TK-101 liquid-fuel feed.
+• Carbon-bearing return toward TK-102.
+• Oxygen-management header.
+• Cathode exhaust to water recovery.
+• DC bus / power electronics.
+• Thermal-management loop.
+Complex / Internal Model
+• Model repeated electrochemical cells compressed between end plates.
+• Internal exploded-view option: cathode gas flow field -> gas diffusion backing/electrode -> catalyst layer -> AEM -> conductive interface mesh -> porous anode -> liquid anode flow field.
+• Current internal basis uses a Pd-based catalyst on porous nickel foam on the fuel side and an oxygen-reduction gas diffusion electrode on the cathode side.
+• Show separate liquid-fuel and oxygen-gas manifolds. Do not merge the two sides visually.
+• Show fuel-cell exhaust/condensate connection to an external condenser or separator rather than depicting all product water draining directly from inside the stack.
+• Show DC power terminals and representative cell/stack monitoring wiring.
+Simplified / DOE View
+• Use the public-facing label Fuel Cell, not DFFC.
+• Show liquid fuel in, oxygen-enriched gas in, electricity out, recoverable-water path out, and carbon-bearing liquid return.
+• Clickable explanation: the fuel cell electrochemically converts TES liquid fuel to generate electricity and recoverable water.
+Modeling cautions / open items
+• Current MVP quote-ready cell count and dimensions should not be presented as final industrial stack geometry unless the 3D model is specifically depicting the MVP.
+8. TK-101 Managed Liquid-Fuel Storage
+Primary role: TK-101 is the main onboard chemical-energy reservoir. It stores usable TES liquid fuel and buffers the timing difference between power generation and ECR regeneration.
+Technical architecture: TK-101 feeds one or more fuel-cell hubs, receives accepted regenerated fuel, maintains protected operating inventory, and is monitored for level, temperature, pH, conductivity, concentration proxy, and inventory state.
+Physical modeling cues: In the Standard TES concept, this can be modeled as one long rectangular horizontal tank occupying much of the rear side of the container. Use headspace, service ports, recirculation connections, inlet/outlet manifolds, drain, sample port, and instrumentation bosses.
+Complex / Internal Model
+• Show one shared tank rather than four independent hub tanks.
+• Provide separate feed/return manifold connections sized visually for four hubs.
+• Show level sensor, temperature probe, pH/conductivity instrumentation, sample port, vent/headspace connection, and service/drain connection.
+• Show trim/reserve and accepted-regeneration connections as controlled smaller lines entering through a mixing or controlled-addition area.
+• Use a recirculation/mixing connection if visually helpful, but do not invent a specific agitator if the final tank design does not require one.
+Simplified / DOE View
+• Show as one shared long tank labeled Liquid Fuel Storage.
+• Keep only main feed and return piping and one generic instrumentation cluster.
+Modeling cautions / open items
+• Exact industrial tank volume, baffle design, nozzle locations, and internal geometry remain CAD/P&ID items.
+9. TK-102 Carbon-Bearing Electrolyte Storage / Buffer
+Primary role: TK-102 receives the carbon-bearing working-fluid return from the fuel-cell side and supplies controlled feed to ECR regeneration batches.
+Technical architecture: TK-102 is the temporal and material buffer between discharge and regeneration. It is tracked separately from TK-101 and includes level, temperature, pH, conductivity, concentration proxy, sampling, inflow/outflow accounting, and controlled ECR feed readiness.
+Physical modeling cues: Model as a second long rectangular tank, physically distinct from TK-101. It can be stacked above or below the fuel tank according to the approved concept image, with its own manifold, instrumentation, vent/headspace, recirculation and ECR feed/return ports.
+Complex / Internal Model
+• Show carbon-bearing return from all fuel-cell hubs collecting into TK-102.
+• Show controlled ECR feed from TK-102 through pump/flow-control equipment to the ECR cathode side.
+• Show regenerated-fuel pathway leaving the ECR and routing toward TK-101 or an accepted-batch interface.
+• If gas-recovery detail is included, show a small TK-102 slipstream line feeding the gas-liquid contactor and returning after gas disengagement.
+Simplified / DOE View
+• Show as one shared long tank labeled Electrolyte Storage.
+• Use a simple return manifold from hubs and a simple regeneration feed line to the ECRs.
+Modeling cautions / open items
+• Do not show TK-101 and TK-102 as one tank or as freely mixed inventories. Their distinct roles are fundamental to TES control architecture.
+10. Chemistry Trim and Fuel-Continuity Reserve System
+Primary role: This support system provides concentrated chemistry correction and controlled reserve support without routine full-tank refueling.
+Technical architecture: The current continuity architecture separates two protected functions: a Chemistry Trim Reservoir for small composition/water-balance corrections and a Fuel Continuity Reserve Reservoir for planned reserve support. Concentrated stock is metered and diluted in a controlled junction or mixing manifold before entering a main inventory.
+Physical modeling cues: For the complex model, use two small vertical or compact rectangular vessels, or one service cabinet containing two clearly separated reservoirs. Provide metering pumps, small-bore tubing, a mixing junction/manifold, level sensors, and controlled connections to the main tanks.
+Complex / Internal Model
+• Show two protected liquid functions where space allows: Chemistry Trim and Fuel Continuity Reserve.
+• Show separate metering pumps and dose totalization conceptually.
+• Show measured TES-produced water entering a controlled dilution/mixing point before concentrate reaches the main tank.
+• Show isolation and a protected minimum/reserve concept through separate valve paths or labels.
+• Optional service-side element: a small isolated reconstitution vessel used during planned maintenance, not part of continuous normal flow.
+Simplified / DOE View
+• Combine visually into one compact Trim / Reserve Module if the DOE-facing model needs simplicity.
+• Do not show concentration values or chemical recipes.
+• Clickable explanation: provides controlled chemistry correction and reserve support to maintain the managed operating state.
+Modeling cautions / open items
+• The earlier concept image shows a single trim reservoir. The internal master model may represent the two protected functions within one visually compact module so the architecture remains accurate without clutter.
+11. Battery / DC Buffer
+Primary role: The onboard battery is an active system-management resource that supports startup, critical auxiliary loads, transient response, regeneration windows, and output smoothing.
+Technical architecture: The battery sits on the TES electrical side rather than functioning as the primary energy-storage product. It maintains a protected state-of-charge band and works with the DC bus, converters, control power, and supervisory logic.
+Physical modeling cues: Model as a compact industrial battery cabinet or rack with integrated BMS, disconnect, DC cables/bus connections, ventilation or thermal provisions appropriate to the selected chemistry, and clear separation from wet process equipment.
+Complex / Internal Model
+• Show battery cabinet, BMS/control interface, DC disconnect/contactors, fuse/breaker protection, and connection to the DC bus.
+• Show support to controls and selected critical auxiliaries through the electrical architecture rather than individual visible wires to every device.
+• Leave enough service clearance for module replacement and electrical isolation.
+Simplified / DOE View
+• Show one compact cabinet labeled Onboard Battery.
+• Clickable explanation: supports startup and critical auxiliary loads within the TES platform.
+Modeling cautions / open items
+• Do not depict the battery as the primary source of TES output or as a grid-scale battery pack.
+12. Power Collection, Conversion, and Export Equipment
+Primary role: This equipment collects DC power from fuel-cell hubs, powers internal DC loads and ECR regeneration, manages the battery/DC bus, converts power as needed, and provides the external electrical output boundary.
+Technical architecture: The industrial control basis includes DC contactors, fuses, breakers, relays, power meters, ECR power-supply interfaces, fuel-cell load interfaces, converters, battery telemetry, insulation/ground-fault monitoring, and export metering.
+Physical modeling cues: Model one or more industrial electrical cabinets with bus bars or cable trays, DC disconnects, converter/inverter modules, breakers, meters, and external power connection. In the Microfacility this becomes a larger dedicated power-collection and conversion room/area.
+Complex / Internal Model
+• Show four hub DC inputs converging to a managed DC bus or collection cabinet.
+• Show separate ECR power-supply/converter path, battery connection, auxiliary distribution, and external conversion/export cabinet.
+• Include visible isolation/protection components and representative power meters.
+• Use cable trays or enclosed bus ducts for major electrical runs rather than loose decorative cables.
+Simplified / DOE View
+• Consolidate to one Power Collection and Conversion cabinet or room.
+• Use animated power-flow overlays rather than exposing detailed electrical schematics.
+Modeling cautions / open items
+• Final inverter topology, voltage level, and grid/interconnection package are project-specific and should not be invented in the model.
+13. Oxygen Enrichment and Oxygen-Management Subsystem
+Primary role: This subsystem supplies controlled oxygen-enriched gas to the fuel-cell cathodes while minimizing auxiliary load and maintaining a safe, serviceable low-pressure gas architecture.
+Technical architecture: The industrial design basis uses oxygen-enrichment membrane technology rather than PSA as the preferred commercial pathway. The subsystem includes ambient-air intake, filtration, blower/compressor as required, membrane module(s), oxygen concentration/flow/pressure monitoring, isolation valves, an oxygen header, and ambient-air/degraded fallback behavior. Conditioned ECR oxygen may supplement the header when timing and quality are suitable.
+Physical modeling cues: Visually, use compact membrane-module housings or cartridges in a cabinet/skid, an air intake/filter section, a small blower, product-gas header, isolation/cross-tie valves, and small sensors. It should not resemble a large cryogenic oxygen plant.
+Complex / Internal Model
+• Show filtered ambient-air intake feeding one or more OEM membrane modules.
+• Show product oxygen-enriched gas routed through a monitored header to the four fuel-cell cathodes.
+• Show isolation/cross-tie capability so one oxygen module or path can be serviced or bypassed.
+• Optional internal feature: conditioned ECR-derived oxygen connection entering the approved oxygen header downstream of gas conditioning.
+• Show safe vent/exhaust path and gas-quality instrumentation.
+Simplified / DOE View
+• Consolidate to one Oxygen Support module feeding a common oxygen header.
+• Do not show membrane chemistry or detailed separation media.
+• Clickable explanation: enriches and manages the oxygen supply used by the fuel cells.
+Modeling cautions / open items
+• Do not depict ECR oxygen reuse as guaranteed full-time supply. It is opportunistic and conditioned before use.
+14. Water Recovery, Collection, and Polishing
+Primary role: This subsystem captures water produced on the fuel-cell cathode side, separates it from the gas stream, measures it, polishes it as required, and routes net recoverable water to external collection or use.
+Technical architecture: The water system is separate from the working electrolyte. The industrial controls basis includes condenser/separator equipment, condensate collection, flow/volume tracking, conductivity/pH/turbidity measurements, filters or polishing equipment, internal-diversion routing when legitimately required, and an export outlet/manifold.
+Physical modeling cues: Model a compact condenser/heat exchanger, gas-liquid separator or condensate vessel, small pump if required, filter/polishing housings, quality-sensor cluster, water collection line, and the external water outlet manifold shown in the concept image.
+Complex / Internal Model
+• Show fuel-cell cathode exhaust lines converging into water-recovery equipment.
+• Show a condenser or cooled separation stage followed by a collection vessel or common water manifold.
+• Show polishing/filter cartridges and quality sensors downstream of raw condensate collection.
+• Show two controlled destinations where useful: customer/export water and limited internal-use/reconstitution water.
+• Show a final external outlet/manifold with flow metering.
+Simplified / DOE View
+• Show one Water Recovery module plus the Recoverable Water Outlet manifold.
+• Use a blue flow overlay from fuel-cell cathode side to recovery and outlet.
+• Avoid labeling recovered water as potable unless site-specific treatment and validation support that claim.
+Modeling cautions / open items
+• Water already circulating in the electrolyte is system inventory, not product water. The visual model should not imply that the main electrolyte tanks are drained to make customer water.
+15. Thermal-Management System
+Primary role: Thermal management keeps the electrochemical stacks, tanks, power electronics, and balance-of-plant equipment within approved temperature ranges while minimizing parasitic power.
+Technical architecture: The industrial concept uses low-temperature liquid cooling and/or air-side heat rejection as appropriate, with pumps, heat exchangers, radiators or fan coils, bypass valves, temperature sensors, and demand-controlled operation. Useful low-grade heat may be reused only where it produces a measured benefit.
+Physical modeling cues: Model a compact coolant reservoir or header, circulating pump(s), plate heat exchanger or radiator/fan assembly, supply/return lines to major stacks, and temperature instrumentation. Keep the system proportionate to a moderate-temperature electrochemical platform.
+Complex / Internal Model
+• Show coolant supply and return headers serving ECRs, fuel cells, and selected power electronics where appropriate.
+• Show VFD-controlled circulation pump(s), bypass valve, heat exchanger/radiator, and temperature/flow sensing.
+• Use valves or branch manifolds so individual hubs can be isolated.
+• Optional complex-model heat-reuse branch may precondition ECR feed or improve condensation, but it should be clearly secondary.
+Simplified / DOE View
+• Consolidate to one Thermal Management module with two main coolant headers.
+• Hide most branch valves and sensor detail.
+Modeling cautions / open items
+• Do not add large chillers or high-temperature equipment unless the released industrial design specifically requires them.
+16. Pumps, Valves, Manifolds, and Process Piping
+Primary role: The process-fluid network moves fuel, electrolyte, anolyte, water, and selected gases between subsystems while preserving separation, low pressure drop, isolation, and controllability.
+Technical architecture: TES uses deliberate routing rather than decorative plumbing. The design philosophy favors shortest practical paths, gentle bends, low dead volume, larger line diameters where they reduce loss, gravity assistance where useful, variable-speed pumps near efficient operating points, check valves, isolation valves, drains, vents, relief, and accessible sample points.
+Physical modeling cues: Use industrial tubing/piping with smooth bends, clear manifolds, pump skids or compact inline pumps, instrument tees, isolation valves, and restrained routing. Avoid a dense random pipe maze.
+Complex / Internal Model
+• Use separate visual circuits for fuel, carbon-bearing electrolyte, ECR anolyte, product water, oxygen/air, CO2, and coolant.
+• Show hub isolation valves and common headers with branches to each hub.
+• Show VFD-capable pumps at the main liquid circuits and smaller metering pumps for trim/reserve.
+• Show check valves at backflow-sensitive interfaces and pressure-relief paths where visually appropriate.
+• In the Microfacility, segment shared headers by bank for isolation and to support control of electrically driven shunt-current paths through conductive electrolyte.
+• Use soft curves / long-radius routing where practical rather than excessive sharp elbows.
+Simplified / DOE View
+• Reduce each circuit to its major trunk and branch lines.
+• Use optional colored overlays to explain flow while keeping the physical piping neutral and realistic.
+Modeling cautions / open items
+• The model must not invent final P&ID routing. Functional connectivity matters more than exact pipe geometry until released routing is available.
+17. AI / EMS, PLC, HMI, Historian, and Control Cabinet
+Primary role: The control system coordinates TES operating modes, protects hard limits, records validation-quality data, and optimizes the complete system without allowing AI to override safety authority.
+Technical architecture: The architecture is layered: passive/mechanical protection; safety PLC or relays; process PLC/PAC; HMI; data acquisition and historian; edge compute / AI supervisory layer; secure remote monitoring. The PLC executes deterministic control and hard limits. AI estimates state, forecasts future need, schedules hubs, and optimizes approved setpoints inside validated envelopes.
+Physical modeling cues: Model a serviceable industrial control cabinet with HMI touchscreen, PLC/PAC rack, distributed I/O, safety relay/PLC, edge computer or industrial PC, network switches/gateway, power supplies/UPS, terminal blocks, cable management, and environmental ventilation/filtration.
+Complex / Internal Model
+• Show one main control cabinet plus smaller hub I/O/junction boxes.
+• Inside-cabinet cutaway can show PLC, safety controller, I/O modules, industrial PC, network hardware, DC power supplies, relays/contactors, and neatly organized terminal strips.
+• HMI screen should show simplified system overview, hub status, tank status, alarms, power, water, operating mode, and trends.
+• Use network/data lines conceptually to all hubs, tanks, power equipment, water, oxygen, thermal, and safety instrumentation.
+• Optional interactive mode can show AI recommendations as an overlay while safety PLC authority remains visually separate.
+Simplified / DOE View
+• Show one cabinet labeled AI / Energy Management System.
+• Clickable explanation: monitors system conditions, coordinates TES subsystems, manages operating states and power demand, and helps maintain efficient and safe performance.
+Modeling cautions / open items
+• Do not portray AI as the safety controller. Hard trips, interlocks, and emergency actions remain under deterministic PLC/hardwired authority.
+18. Sensors and Instrumentation
+Primary role: Sensors provide the state information needed for safe control, inventory accounting, optimization, fault detection, and validation.
+Technical architecture: The industrial prototype monitors electrical, fluid, gas, chemical, water-quality, thermal, and safety variables. Not every sensor must be visible in the public model, but the complex model should show enough instrumentation to make the system credible and traceable.
+Physical modeling cues: Use compact industrial transmitters, pressure gauges, flow meters, probe ports, sample ports, wiring glands, and local instrument clusters at major equipment boundaries.
+Complex / Internal Model
+• Fuel cell: stack and per-cell voltage, current, fuel flow, pressure/differential pressure, temperature, oxygen flow/concentration, humidity, condensate/water measurement.
+• ECR: stack/per-cell voltage and current, electrolyte/anolyte flow, CO2 flow/pressure, pH, conductivity, temperature, formate-concentration proxy, gas behavior.
+• Tanks: level, temperature, pH, conductivity, concentration/density proxy, sample ports, flow totalization.
+• Water: condensate mass/flow, raw/final conductivity, pH, turbidity, filter differential pressure, tank level.
+• Thermal: supply/return temperatures, flow, pressure, ambient temperature/humidity.
+• Oxygen: feed/product flows, pressure, O2 concentration, temperature, power and valve status.
+• Electrical: DC bus voltage/current, battery BMS state, converter telemetry, export meter, auxiliary submeters, insulation/ground-fault monitoring.
+• Safety: leak detection, gas detection, pressure-relief status, valve feedback, E-stops, cabinet temperature/humidity and network/control health.
+Simplified / DOE View
+• Show only representative sensors at each major subsystem, not every tag.
+• Use clickable hotspot overlays to indicate that TES is instrumented and continuously monitored.
+Modeling cautions / open items
+• Sensor models should look industrial and serviceable, not laboratory benchtop instrumentation unless the scene is explicitly the MVP.
+19. Safety, Isolation, Ventilation, and Containment Features
+Primary role: These features protect personnel, equipment, electrical boundaries, chemistry, and the separation of incompatible streams.
+Technical architecture: TES operates with aqueous nonflammable working fluids, low pressure, moderate temperature, modular isolation, manual override, hardwired trips, gas monitoring, ventilation, relief, and controlled routing. These features should be visible enough to make the model credible without overwhelming the primary architecture.
+Physical modeling cues: Use drip/secondary containment under major wet equipment, E-stop stations, relief/vent lines, gas detectors, ventilation grilles/fans, electrical disconnects, hub isolation, labeled service clearances, and guarded access where appropriate.
+Complex / Internal Model
+• Show emergency-stop buttons at access points and control cabinet.
+• Show ventilation path and gas-detection points near ECR/CO2 and oxygen-related equipment.
+• Show relief/vent routing from vessels and low-pressure circuits to safe discharge locations.
+• Show hub-level fluid and electrical isolation.
+• Show containment or curbing under major tanks and process skids where practical.
+• Keep wet-process equipment separated from major electrical cabinets through layout and barriers/spacing.
+Simplified / DOE View
+• Keep E-stops, ventilation, major isolation valves, and containment visible.
+• Hide detailed safety instrumentation and relief routing unless selected by the viewer.
+Modeling cautions / open items
+• The 3D model is not a HAZOP or final code-compliance drawing. Final fire, electrical, ventilation, and pressure-safety layout requires formal engineering review.
+20. TES Microfacility: Bank-Level Modeling Architecture
+The Microfacility is a purpose-built banked industrial architecture, not a collection of individually packaged Standard TES containers. Roger should treat the Standard TES component language as the base vocabulary, then reorganize the equipment into larger banks and shared facility infrastructure.
+Current example configuration: Eight bank rows, ten hubs per bank, 80 total hubs. This is a 4 MW example visualization, not the fixed maximum size of the Microfacility platform. The Microfacility product starts at 1 MW and above and scales to customer need.
+Water planning basis: Current management target is 2,300+ gallons per day of recoverable water per MW. A 4 MW example therefore corresponds to approximately 9,200+ gallons per day as a target-level visualization, subject to validation and final site configuration.
+• Each bank contains ten hubs. Each hub contains its own ECR and fuel cell.
+• Each bank should have larger shared liquid-fuel and electrolyte-storage capacity rather than ten independent tank pairs.
+• Banks should have segmented shared headers for liquid, gas, coolant, and electrical collection so a bank or hub can be isolated without disabling the entire facility.
+• The facility should include centralized or semi-centralized power collection/conversion, water collection/handling, AI/operations, oxygen support, thermal equipment, safety systems, and maintenance access.
+• Follow the provided internal and external Microfacility concept images closely for visual organization, walkways, bank repetition, tank placement, water-handling zone, power zone, and control-room zone.
+Complex / Internal Microfacility Model
+• Build one fully detailed 10-hub bank first as the master bank asset, then duplicate it eight times with appropriate identifiers and shared facility headers.
+• Within each bank, show ten hub skids, shared fuel/electrolyte storage, local bank manifolds, pump/valve skids, instrumentation, electrical collection, coolant distribution, oxygen header, and water collection.
+• Create a bank-level electrical and process isolation point at the end of each row.
+• Show shared facility corridors for piping and cable trays rather than routing every line independently across open space.
+• Create dedicated facility zones for Water Storage and Handling, Power Collection and Conversion, and Facility Operations / AI Control, consistent with the concept image.
+• Allow drill-down navigation: Facility -> Bank -> Hub -> ECR or Fuel Cell -> selected internal layer/component.
+Simplified / DOE Microfacility View
+• Keep the eight rows and ten-hub-per-bank pattern visually obvious.
+• Use one-click highlights for a bank, hub, shared fuel storage, shared electrolyte storage, water handling, power conversion, and AI control.
+• Hide most small-bore piping, instrumentation, internal electrical cabinets, and proprietary electrochemical layers until the viewer selects a deeper technical mode.
+• Use optional Power Path, Recoverable Water Path, Fuel / Conversion Path, and Facility Overview modes.
+21. Recommended 3D Detail Levels
+To keep the project manageable, build the master model in layers of detail so the same geometry can serve different audiences and rendering-performance requirements.
+Level
+Purpose
+Visible detail
+Use
+LOD 0
+Exterior silhouette
+Enclosure, doors, vents, logo, major external connections
+Intro video / distant facility views
+LOD 1
+System overview
+Major stacks, tanks, control cabinet, battery, water manifold, main headers
+DOE interactive overview
+LOD 2
+Engineering detail
+Pumps, valves, sensors, electrical cabinets, oxygen, thermal, water recovery, bank manifolds
+Technical walkthrough
+LOD 3
+Internal component cutaway
+Representative stack layers, manifolds, compression hardware, control cabinet internals
+Internal / selected engineering demonstration
+22. Visual Language and Flow Overlays
+Physical equipment should remain realistic and industrial. Color is best used for optional overlays rather than painting every real pipe a bright color.
+• Reliable power / electrical path: use TES energy green as an optional animated overlay.
+• Recoverable water path: use water blue as an optional animated overlay.
+• CO2 / carbon-bearing path: use a distinct neutral or cool accent separate from water.
+• Liquid fuel path: use a warm amber/orange overlay if needed for differentiation.
+• Thermal path: use a restrained warm-red overlay only in thermal viewing mode.
+• Normal engineering view: metallic/neutral piping, white/light-gray equipment, dark electrical cabinets, consistent TES branding, clean labeling.
+23. Modeling Guardrails for Roger and the 3D Agent
+• Do not invent final industrial dimensions when no released CAD exists.
+• Do not invent chemical recipes, catalyst loadings, membrane formulations, control thresholds, or proprietary algorithms for the public/DOE model.
+• Do not route dedicated ECR anolyte liquid into TK-101 or TK-102.
+• Do not show ECR and fuel cell as permanently rate-matched or always running simultaneously.
+• Do not depict the battery as the main power source.
+• Do not depict water as being produced by draining or consuming the main electrolyte inventory.
+• Do not depict oxygen as a large stored compressed-gas system unless a later released design specifically adopts one.
+• Do not make the Microfacility a row of complete shipping containers. It is a purpose-built shared-infrastructure facility using repeatable banks and hubs.
+• When geometry is uncertain, prioritize correct functional connectivity, serviceability, isolation, and visual hierarchy over decorative complexity.
+• Any future released CAD, P&ID, vendor specification, or engineering revision that conflicts with this summary supersedes this summary.
+24. Internal Source Basis
+This modeling summary consolidates current TES internal sources and the approved 3D-model direction discussed with Civis Tech Global. The most relevant source documents include:
+• TES Governing Architecture and Source-of-Truth Index, Revision 1, September 2026.
+• TES Industrial Prototype Validation and Commercial Readiness Protocol, Revision 1, September 2026.
+• TES Industrial Prototype Instrumentation, Sensor and I/O Specification, Revision 1, September 2026.
+• TES Water Partition and Recovery Efficiency Architecture, Revision 1, September 2026.
+• TES Maximum Fuel Energy and Water Recovery Architecture, Revision 1, September 2026.
+• TES One-Year Continuity, Fuel Management, and Dry Reconstitution Plan, Revision 4, July 2026.
+• TES AI Supervisory Control Logic Functional Specification, Revision 1, July 2026, with newer September documents governing where updated.
+• TES Industrial Prototype Control and Data Acquisition Plan, June 2026.
+• CTG TES MVP Piping and Flow Integration Guide, June 2026, used for general flow-routing philosophy where still applicable.
+• CTG TES ECR Anolyte Design Basis, Revision 3, August 2026.
+• Current DFFC CAD / technical basis and later industrial release documentation.
+• Approved Standard TES and Microfacility concept images supplied for the DOE 3D modeling project.
+End of document.

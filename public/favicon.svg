@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="TES Studio">
+  <rect width="32" height="32" rx="7" fill="#0C3F86"/>
+  <rect x="5" y="11" width="22" height="11" rx="1.2" fill="#F4F7FB"/>
+  <rect x="5" y="11" width="22" height="2.1" fill="#D5DEE6"/>
+  <rect x="15.2" y="11" width="1.6" height="11" fill="#10233F"/>
+  <rect x="7" y="19.2" width="18" height="1.8" rx="0.4" fill="#1C7A45"/>
+</svg>
